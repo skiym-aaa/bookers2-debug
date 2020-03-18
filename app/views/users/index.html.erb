@@ -29,12 +29,23 @@
 						<td><%= user.name%></td>
 
 
-						<td><%= "フォロー数：#{}" %></td>
-						<td><%= "フォロワー数：#{}" %></td>
-						<!-- カウント追加 -->
-						<td><%= link_to "フォローする" %></td>
-						<!-- リンク先追加 -->
+						<td><%= "フォロー数：#{user.followings.count}" %></td>
+						<td><%= "フォロワー数：#{user.followers.count}" %></td>
 
+						<td>
+							<% unless current_user?(user) %>
+	              <% if current_user.following?(user) %>
+	                <%= form_for(current_user.following_relationships.find_by(following_id: user.id), html: {method: :delete}) do |f| %>
+	                  <%= f.submit "フォロー外す", class: "btn btn-primary" %>
+	                <% end %>
+	              <% else %>
+	                <%= form_for(current_user.following_relationships.build(following_id: user.id)) do |f| %>
+	                  <div><%= f.hidden_field :following_id %></div>
+	                      <%= f.submit "フォローする", class: "btn btn-success" %>
+	                <% end %>
+	              <% end %>
+	            <% end %>
+	          </td>
 						<td><%= link_to "Show", user, class: "user_#{user.id}" %></td>
 					</tr>
 					<% end %>

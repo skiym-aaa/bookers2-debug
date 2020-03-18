@@ -13,17 +13,35 @@
 
 			<tr>
 				<th>follows</th>
-				<th><%= link_to "#{}" %></th>
-				<!-- カウント追加 -->
+				<th><%= link_to "#{user.followings.count}", following_user_path(user) %></th>
 			</tr>
 
 			<tr>
 				<th>followers</th>
-				<th><%= link_to "#{}" %></th>
-				<!-- カウント追加 -->
+				<th><%= link_to "#{user.followers.count}", followers_user_path(user) %></th>
 			</tr>
 </table>
 
+<!-- Editボタン(自分のみ表示) -->
+<% if user.id == current_user.id %>
 <div class="row">
 	<%= link_to '',edit_user_path(user), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench edit_user_#{user.id}" %>
 </div>
+<% end %>
+
+<!-- フォローボタン(自分以外表示) -->
+<% unless current_user?(user) %>
+	<!-- 現在ログインしているユーザーのプロフィールは、フォロー、フォロー解除のボタンが出ないようにする。 -->
+	<div class="row" id="follow_form">
+		<% if current_user.following?(user) %>
+			<%= form_for(current_user.following_relationships.find_by(following_id: user.id), html: {method: :delete}) do |f| %>
+				<%= f.submit "フォロー外す", class: "col-xs-12 btn btn-primary" %>
+			<% end %>
+		<% else %>
+			<%= form_for(current_user.following_relationships.build(following_id: user.id)) do |f| %>
+				<div><%= f.hidden_field :following_id %></div>
+				<%= f.submit "フォローする", class: "col-xs-12 btn btn-success" %>
+			<% end %>
+		<% end %>
+	</div>
+<% end %>
