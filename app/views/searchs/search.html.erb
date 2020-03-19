@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row">
-    <h2><%= "#{@model} search for '#{@content}'" %></h2>
 
     <!-- modelがuserの場合 -->
     <% if @model == 'user' %>
+    <h2><%= "Users search for '#{@content}'" %></h2>
       <table class="table">
         <thead>
           <tr>
@@ -27,6 +27,7 @@
 
     <!-- modelがbookの場合 -->
     <% if @model == 'book' %>
+    <h2><%= "Books search for '#{@content}'" %></h2>
       <table class="table">
         <thead>
           <tr>
