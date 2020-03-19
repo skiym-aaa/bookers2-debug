@@ -11,6 +11,8 @@ before_action :authenticate_user!
 
   def destroy
     @comment = BookComment.find(params[:book_id])
+    @book = Book.find(params[:book])
+    @book_comment = BookComment.new
     # URLへの直リンクを禁止
     if @comment.user != current_user
       # 1つ前のURLへ返す。
