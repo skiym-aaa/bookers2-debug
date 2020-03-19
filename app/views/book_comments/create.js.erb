@@ -1,0 +1,2 @@
+$("#comments_update_<%= @book.id %>").html('<%= escape_javascript(render("book_comments/comment", {book: @book, book_comment: @comment})) %>');
+$("textarea").val('')
