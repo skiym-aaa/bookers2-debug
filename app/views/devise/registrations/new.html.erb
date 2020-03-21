@@ -18,6 +18,28 @@
         <%= f.email_field :email, autofocus: true, class: "email" %>
       </div>
 
+      <!-- 住所関連 -->
+      <div class="field">
+        <%= f.label :postcode %><br />
+        <%= f.text_field :postcode, autofocus: true, class: "postcode" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :prefecture_code %><br />
+        <%= f.collection_select :prefecture_code, JpPrefecture::Prefecture.all, :name, :name, include_blank: true, autofocus: true, class: "prefecture_code" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :City %><br />
+        <%= f.text_field :address_city, autofocus: true, class: "address_city" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :Street %><br />
+        <%= f.text_field :address_street, autofocus: true, class: "address_street" %>
+      </div>
+      <!-- ここまで -->
+
       <div class="field">
         <%= f.label :password %>
         <% if @minimum_password_length %>
