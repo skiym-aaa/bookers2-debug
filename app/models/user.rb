@@ -43,6 +43,18 @@ class User < ApplicationRecord
   end
   # ここまで
 
+  # Google map
+  after_validation :geocode
+
+  private
+  def geocode
+    uri = URI.escape("https://maps.googleapis.com/maps/api/geocode/json?address="+self.address_street.gsub(" ", "")+"&key=<%= ENV['API_KEY']%>")
+    res = HTTP.get(uri).to_s
+    response = JSON.parse(res)
+    self.latitude = response["results"][0]["geometry"]["location"]["lat"]
+    self.longitude = response["results"][0]["geometry"]["location"]["lng"]
+  end
+
   attachment :profile_image, destroy: false
 
   #バリデーションは該当するモデルに設定する。エラーにする条件を設定できる。

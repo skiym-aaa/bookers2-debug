@@ -81,3 +81,11 @@ gem 'bootstrap-sass', '~> 3.3.6'
 # Add jp_prefecture
 gem 'jp_prefecture'
 gem 'simple_form'
+
+# Add dotenv-rails(環境変数)
+gem 'dotenv-rails'
+
+# Add geocoder
+gem 'http'
+gem 'openssl'
+gem 'geocoder'
