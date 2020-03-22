@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable,:validatable
+         :recoverable, :rememberable, :trackable, :validatable
 
   has_many :books, dependent: :destroy
   has_many :favorites, dependent: :destroy
@@ -42,18 +42,6 @@ class User < ApplicationRecord
     self.prefecture_code = JpPrefecture::Prefecture.find(name: prefecture_name).code
   end
   # ここまで
-
-  # Google map
-  after_validation :geocode
-
-  private
-  def geocode
-    uri = URI.escape("https://maps.googleapis.com/maps/api/geocode/json?address="+self.address_street.gsub(" ", "")+"&key=<%= ENV['API_KEY']%>")
-    res = HTTP.get(uri).to_s
-    response = JSON.parse(res)
-    self.latitude = response["results"][0]["geometry"]["location"]["lat"]
-    self.longitude = response["results"][0]["geometry"]["location"]["lng"]
-  end
 
   attachment :profile_image, destroy: false
 

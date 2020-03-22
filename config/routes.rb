@@ -16,4 +16,8 @@ Rails.application.routes.draw do
     resource :book_comments, only: [:create, :destroy]
   end
 
+  if Rails.env.development?
+  mount LetterOpenerWeb::Engine, at: '/letter_opener'
+  end
+
 end
